@@ -2,16 +2,19 @@ package usermanagement;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.HashMap;
-import java.util.Map;
+import database.DatabaseManager;
 
 
 public class UserService {
-    private final Map<String, String> userDatabase; // Замените на вашу базу данных
+    private final DatabaseManager databaseManager;
 
-    public UserService() {
-        this.userDatabase = new HashMap<>();
+
+   public UserService(DatabaseManager databaseManager) {
+        this.databaseManager = databaseManager;
     }
+
+    // метод для входа администратора
+
 
     // Метод для регистрации нового пользователя
     public void registerUser(String username, String password) {
