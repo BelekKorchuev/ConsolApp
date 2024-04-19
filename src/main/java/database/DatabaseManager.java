@@ -7,7 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class DatabaseManager {
-    private static final String DATABASE_URL = "jdbc:sqlite:carwash.db";
+    private static final String DATABASE_URL = "jdbc:sqlite:src/main/resources/mydatabase.db";
 
     // Метод для подключения к базе данных
     public static Connection connect() throws SQLException {
@@ -35,10 +35,11 @@ public class DatabaseManager {
             pstmt.executeUpdate();
         } catch (SQLException e) {
             System.out.println(e.getMessage());
+
         }
     }
 
-    // Метод для получения данных пользователя из базы данных
+    // Метод для получения данных зашифрованного пароля пользователя из базы данных
     public static String getUserPassword(String username) {
         String sql = "SELECT password FROM users WHERE username = ?";
         try (Connection conn = connect();
@@ -50,6 +51,7 @@ public class DatabaseManager {
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
+            System.out.println("cant at all");
         }
         return null;
     }

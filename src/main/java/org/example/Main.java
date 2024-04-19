@@ -18,6 +18,7 @@ public class Main {
             System.out.println("1. Войти как администратор");
             System.out.println("2. Войти как клиент");
             System.out.println("3. Зарегистрироваться как клиент");
+            System.out.println("4. Зарегистрироваться как admin");
             System.out.println("0. Выход");
 
             int choice = scanner.nextInt();
@@ -25,15 +26,16 @@ public class Main {
 
             switch (choice) {
                 case 1:
-
-                    authController.adminLogin();
+                    authController.admin_Login();
                     break;
                 case 2:
-                    // войти как клиент
+                    authController.client_Login();
                     break;
                 case 3:
-                    // рега как клиент
+                    authController.client_Register();
                     break;
+                case 4:
+                    authController.admin_Register();
                 case 0:
                     System.out.println("До свидания!");
                     System.exit(0);
