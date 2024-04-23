@@ -3,6 +3,9 @@ package org.example;
 import authentication.AuthController;
 import authentication.AuthService;
 import database.DatabaseManager;
+import ordermanagement.OrderController;
+import ordermanagement.OrderService;
+
 import java.util.Scanner;
 
 public class Main {
@@ -10,6 +13,8 @@ public class Main {
         DatabaseManager databaseManager = new DatabaseManager(); // Создание экземпляра DatabaseManager
         AuthService authService = new AuthService(databaseManager);
         AuthController authController = new AuthController(authService);
+        OrderService orderService = new OrderService();
+        OrderController orderController = new OrderController(orderService);
         Scanner scanner = new Scanner(System.in);
 
 
@@ -18,8 +23,10 @@ public class Main {
             System.out.println("1. Войти как администратор");
             System.out.println("2. Войти как клиент");
             System.out.println("3. Зарегистрироваться как клиент");
-            System.out.println("4. Зарегистрироваться как admin");
             System.out.println("0. Выход");
+            System.out.println("4. create order");
+            System.out.println("5. delete order");
+            System.out.println("6. update order status");
 
             int choice = scanner.nextInt();
             scanner.nextLine(); // Очистка буфера после ввода числа
@@ -34,11 +41,18 @@ public class Main {
                 case 3:
                     authController.client_Register();
                     break;
-                case 4:
-                    authController.admin_Register();
                 case 0:
                     System.out.println("До свидания!");
                     System.exit(0);
+                    break;
+                case 4:
+                    orderController.addOrder_Admin();
+                    break;
+                case 5:
+                    orderController.deleteOrder_Admin();
+                    break;
+                case 6:
+                    orderController.updateOrderStatus_Admin();
                     break;
                 default:
                     System.out.println("Некорректный выбор. Попробуйте снова.");

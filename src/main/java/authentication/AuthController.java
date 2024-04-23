@@ -61,23 +61,23 @@ public class AuthController {
             System.out.println("Ошибка аутентификации. Повторите еще раз.");
         }
     }
-
-    public void admin_Register() {
-        System.out.println("Регистрация:");
-        System.out.println("Введите имя пользователя:");
-        String username = scanner.nextLine();
-
-        System.out.println("Введите пароль:");
-        String password = scanner.nextLine();
-
-        boolean authenticated = authService.adminRegister(username, password);
-        if (authenticated) {
-            System.out.println("Вы успешно зарегестрированы!\n" +
-                    "Для входа нужно еще раз ввести данные.");
-            admin_Login();
-            // Действия после успешного входа администратора
-        } else {
-            System.out.println("Ошибка аутентификации. Повторите еще раз.");
-        }
-    }
+    //использовалась только для регистрации админа в дальнейшем не будет использоватся
+//    public void admin_Register() {
+//        System.out.println("Регистрация:");
+//        System.out.println("Введите имя пользователя:");
+//        String username = scanner.nextLine();
+//
+//        System.out.println("Введите пароль:");
+//        String password = scanner.nextLine();
+//
+//        boolean authenticated = authService.adminRegister(username, password);
+//        if (authenticated) {
+//            System.out.println("Вы успешно зарегестрированы!\n" +
+//                    "Для входа нужно еще раз ввести данные.");
+//            admin_Login();
+//            // Действия после успешного входа администратора
+//        } else {
+//            System.out.println("Ошибка аутентификации. Повторите еще раз.");
+//        }
+//    }
 }
