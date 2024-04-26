@@ -11,8 +11,8 @@ public class OrderService {
 //    }
 
     // Админ метод что обрашяется к методу для добавдения заказа
-    public static boolean add_order_Admin(String name, String car_model, String wash_type, String status) {
-        DatabaseManager.addOrder(name, car_model, wash_type, status);
+    public static boolean add_order_Admin(String name, int name_id, String car_model, int wash_type_id, String status, String created_at) {
+        DatabaseManager.addOrder(name, name_id, car_model, wash_type_id, status, created_at);
         return true;
     }
 
@@ -26,6 +26,25 @@ public class OrderService {
     public static boolean update_orderStatus_Admin(int orderId, String newStatus) {
         DatabaseManager.updateOrderStatus(orderId, newStatus);
         return true;
+    }
+
+    // метод что обрашяется к методу вывода всех пользователей(для админа)
+    public static void displayUsers() {
+        DatabaseManager.displayUsers();
+    }
+
+    // метод что обрашается к методу вывода услуг(для админа)
+    public static void displayServices() {
+        DatabaseManager.displayServices();
+    }
+
+    // метод что обрашается к методу вывода списка заказов(для админа)
+    public static void displayOrders() {
+        DatabaseManager.displayOrders();
+    }
+
+    public static void displayOrderDetails() {
+        DatabaseManager.displayOrdersDetails();
     }
 }
 

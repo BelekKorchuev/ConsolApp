@@ -54,12 +54,11 @@ public class AuthService {
         return true;
     }
 
-//    использовалось для регистрации админа, дальнейшая использование не требуется
+    // использовалось для регистрации админа, дальнейшая использование не требуется
 //    public boolean adminRegister(String username, String password) {
 //        // Шифрование пароля
 //        String encryptedPassword = encryptPassword(password);
-////         Сохранение пользователя в базе данных
-//        DatabaseManager.createUserTable();
+//        // Сохранение пользователя в базе данных
 //        DatabaseManager.addUser(username, encryptedPassword);
 //        return true;
 //    }

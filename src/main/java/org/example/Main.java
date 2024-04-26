@@ -26,7 +26,9 @@ public class Main {
             System.out.println("0. Выход");
             System.out.println("4. create order");
             System.out.println("5. delete order");
-            System.out.println("6. update order status");
+            System.out.println("6. update order status  ");
+//            System.out.println("7. register admin  ");
+            System.out.println("8. all orders  ");
 
             int choice = scanner.nextInt();
             scanner.nextLine(); // Очистка буфера после ввода числа
@@ -53,6 +55,12 @@ public class Main {
                     break;
                 case 6:
                     orderController.updateOrderStatus_Admin();
+                    break;
+//                case 7:
+//                    authController.admin_Register();
+//                    break;
+                case 8:
+                    orderController.getAllOrders();
                     break;
                 default:
                     System.out.println("Некорректный выбор. Попробуйте снова.");

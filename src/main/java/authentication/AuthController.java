@@ -12,10 +12,10 @@ public class AuthController {
     }
 
     public void admin_Login() {
-        System.out.println("Введите имя пользователя:");
+        System.out.print("Введите имя пользователя:");
         String username = scanner.nextLine();
 
-        System.out.println("Введите пароль:");
+        System.out.print("Введите пароль:");
         String password = scanner.nextLine();
 
         boolean authenticated = authService.adminLogin(username, password);
@@ -28,10 +28,10 @@ public class AuthController {
     }
 
     public void client_Login() {
-        System.out.println("Введите имя пользователя:");
+        System.out.print("Введите имя пользователя:");
         String username = scanner.nextLine();
 
-        System.out.println("Введите пароль:");
+        System.out.print("Введите пароль:");
         String password = scanner.nextLine();
 
         boolean authenticated = authService.clientLogin(username, password);
@@ -45,10 +45,10 @@ public class AuthController {
 
     public void client_Register() {
         System.out.println("Регистрация:");
-        System.out.println("Введите имя пользователя:");
+        System.out.print("Введите имя пользователя:");
         String username = scanner.nextLine();
 
-        System.out.println("Введите пароль:");
+        System.out.print("Введите пароль:");
         String password = scanner.nextLine();
 
         boolean authenticated = authService.clientRegister(username, password);
@@ -61,6 +61,7 @@ public class AuthController {
             System.out.println("Ошибка аутентификации. Повторите еще раз.");
         }
     }
+
     //использовалась только для регистрации админа в дальнейшем не будет использоватся
 //    public void admin_Register() {
 //        System.out.println("Регистрация:");

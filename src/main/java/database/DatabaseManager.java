@@ -63,20 +63,22 @@ public class DatabaseManager {
     }
 
     // Админ метод для создания заказа в базе данных
-    public static void addOrder(String name, String car_model, String wash_type, String status) {
+    public static void addOrder(String name, int name_id, String car_model, int wash_type_id, String status, String created_at) {
         try {
             resetAutoIncrement();
         } catch (SQLException e) {
             System.out.println("Ошибка при сбросе автоинкремента: " + e.getMessage());
         }
 
-        String sql = "INSERT INTO orders (customer_name, car_model, wash_type, status) VALUES (?, ?, ?, ?)";
+        String sql = "INSERT INTO orders (customer_name, customer_id, car_model, wash_type_id, status, created_at) VALUES (?, ?, ?, ?, ?, ?)";
         try (Connection conn = connect();
              PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, name);
-            ps.setString(2, car_model);
-            ps.setString(3, wash_type);
-            ps.setString(4, status);
+            ps.setInt(2, name_id);
+            ps.setString(3, car_model);
+            ps.setInt(4, wash_type_id);
+            ps.setString(5, status);
+            ps.setString(6, created_at);
             ps.executeUpdate();
         } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -110,7 +112,7 @@ public class DatabaseManager {
 
     // Админ метод для удаления заказа из базы данных
     public static void deleteOrder(int orderId) {
-        String sql = "DELETE FROM orders WHERE ID = ?";
+        String sql = "DELETE FROM orders WHERE id = ?";
         try (Connection conn = connect();
              PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setInt(1, orderId);
@@ -129,7 +131,7 @@ public class DatabaseManager {
 
     // Метод для смещения списка после удаления заказа
     private static void shiftOrderIdsAfterDeletion(Connection conn, int deletedOrderId) throws SQLException {
-        String sql = "UPDATE orders SET ID = ID - 1 WHERE ID > ?";
+        String sql = "UPDATE orders SET id = id - 1 WHERE id > ?";
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setInt(1, deletedOrderId);
             ps.executeUpdate();
@@ -138,7 +140,7 @@ public class DatabaseManager {
 
     // Админ метод для изменнения статуса заказа в базе данных
     public static void updateOrderStatus(int orderId, String newStatus){
-        String sql = "UPDATE orders SET status = ? WHERE ID = ?";
+        String sql = "UPDATE orders SET status = ? WHERE id = ?";
         try (Connection conn = connect();
              PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, newStatus);
@@ -147,4 +149,82 @@ public class DatabaseManager {
         } catch (SQLException e) {
             System.out.println(e.getMessage());        }
     }
+
+    // метод для вывода данных id и username из таблицы users
+    public static void displayUsers() {
+        String sql = "SELECT id, username FROM users";
+        try (Connection conn = connect();
+             Statement statement = conn.createStatement();
+             ResultSet resultSet = statement.executeQuery(sql)) {
+            while (resultSet.next()) {
+                int id = resultSet.getInt("id");
+                String username = resultSet.getString("username");
+                System.out.println("| ID:" + id + ", имя: " + username + "|");
+            }
+        } catch (SQLException e) {
+            System.out.println("Ошибка при получении списка пользователей: " + e.getMessage());
+        }
+    }
+
+    // метод для вывода данных о сущ. услуг из таблицы services
+    public static void displayServices() {
+        String sql = "SELECT id, name, discrip, price FROM services";
+        try (Connection conn = connect();
+             Statement statement = conn.createStatement();
+             ResultSet resultSet = statement.executeQuery(sql)) {
+            while (resultSet.next()) {
+                int id = resultSet.getInt("id");
+                String name = resultSet.getString("name");
+                String description = resultSet.getString("discrip");
+                double price = resultSet.getDouble("price");
+                System.out.println("| ID:" + id + " || Название: " + name + ", || Цена:" + price+ " сом | \n| Описание: " + description + "| ");
+                System.out.println("------------------------------------------------------");
+            }
+        } catch (SQLException e) {
+            System.out.println("Ошибка при получении списка услуг: " + e.getMessage());
+        }
+    }
+
+    // метод для вывода списка заказов
+    public static void displayOrders() {
+        String sql = "SELECT id, customer_name, car_model, status, created_at FROM orders";
+        try (Connection conn = connect();
+            Statement statement = conn.createStatement();
+            ResultSet resultSet = statement.executeQuery(sql)){
+            while (resultSet.next()) {
+                int id = resultSet.getInt("id");
+                String customer_name = resultSet.getString("customer_name");
+                String car_model = resultSet.getString("car_model");
+                String status = resultSet.getString("status");
+                String created_at = resultSet.getString("created_at");
+                System.out.println("| ID:" + id + " || Покупатель: " + customer_name + " || Модель машини: " + car_model + " || Статус выполнения: " + status + " || Создан в: " + created_at);
+            }
+        } catch (SQLException e) {
+            System.out.println("Ошибка при получении списка заказов");
+        }
+    }
+
+    // метод для вывода заказов(соединение 3 таблиц) для админа
+    public static void displayOrdersDetails() {
+    String sql = "SELECT users.username, orders.car_model, services.name, orders.status, orders.created_at " +
+                 "FROM orders " +
+                 "LEFT JOIN users ON orders.customer_id = users.id " +
+                 "LEFT JOIN services ON orders.wash_type_id = services.id";
+    try (Connection conn = connect();
+         Statement statement = conn.createStatement();
+         ResultSet resultSet = statement.executeQuery(sql)) {
+        while (resultSet.next()) {
+            String username = resultSet.getString("username");
+            String carModel = resultSet.getString("car_model");
+            String serviceName = resultSet.getString("name");
+            String status = resultSet.getString("status");
+            String createdAt = resultSet.getString("created_at");
+            System.out.println("| Клиент:" + username + " || Модель машины: " + carModel + " || Сервис: " + serviceName + " || Статус: " + status + " || Создано: " + createdAt + "|");
+        }
+    } catch (SQLException e) {
+        System.out.println("Ошибка при получении деталей заказов: " + e.getMessage());
+    }
+}
+
+
 }
