@@ -3,11 +3,9 @@ package authentication;
 import java.util.Scanner;
 
 public class AuthController {
-    private final AuthService authService;
     private final Scanner scanner;
 
-    public AuthController(AuthService authService) {
-        this.authService = authService;
+    public AuthController() {
         this.scanner = new Scanner(System.in);
     }
 
@@ -18,7 +16,7 @@ public class AuthController {
         System.out.print("Введите пароль:");
         String password = scanner.nextLine();
 
-        boolean authenticated = authService.adminLogin(username, password);
+        boolean authenticated = AuthService.adminLogin(username, password);
         if (authenticated) {
             System.out.println("Вход выполнен успешно как администратор.");
             // Действия после успешного входа администратора
@@ -34,7 +32,7 @@ public class AuthController {
         System.out.print("Введите пароль:");
         String password = scanner.nextLine();
 
-        boolean authenticated = authService.clientLogin(username, password);
+        boolean authenticated = AuthService.clientLogin(username, password);
         if (authenticated) {
             System.out.println("Вход выполнен успешно как клиента.");
             // Действия после успешного входа администратора
@@ -51,7 +49,7 @@ public class AuthController {
         System.out.print("Введите пароль:");
         String password = scanner.nextLine();
 
-        boolean authenticated = authService.clientRegister(username, password);
+        boolean authenticated = AuthService.clientRegister(username, password);
         if (authenticated) {
             System.out.println("Вы успешно зарегестрированы!\n" +
                     "Для входа нужно еще раз ввести данные.");
@@ -71,7 +69,7 @@ public class AuthController {
 //        System.out.println("Введите пароль:");
 //        String password = scanner.nextLine();
 //
-//        boolean authenticated = authService.adminRegister(username, password);
+//        boolean authenticated = AuthService.adminRegister(username, password);
 //        if (authenticated) {
 //            System.out.println("Вы успешно зарегестрированы!\n" +
 //                    "Для входа нужно еще раз ввести данные.");

@@ -3,12 +3,6 @@ package ordermanagement;
 import database.DatabaseManager;
 
 public class OrderService {
-    private static DatabaseManager databaseManager;
-
-
-//    public List<Order> getAllOrders() {
-//        return databaseManager.getAllOrders();
-//    }
 
     // Админ метод что обрашяется к методу для добавдения заказа
     public static boolean add_order_Admin(String name, int name_id, String car_model, int wash_type_id, String status, String created_at) {

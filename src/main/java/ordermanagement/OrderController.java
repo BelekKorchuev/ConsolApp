@@ -5,7 +5,7 @@ import java.util.Scanner;
 public class OrderController {
     private final Scanner scanner;
 
-    public OrderController(OrderService orderService) {
+    public OrderController() {
         this.scanner = new Scanner(System.in);
     }
 

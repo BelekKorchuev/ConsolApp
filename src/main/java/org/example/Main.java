@@ -10,11 +10,8 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        DatabaseManager databaseManager = new DatabaseManager(); // Создание экземпляра DatabaseManager
-        AuthService authService = new AuthService(databaseManager);
-        AuthController authController = new AuthController(authService);
-        OrderService orderService = new OrderService();
-        OrderController orderController = new OrderController(orderService);
+        AuthController authController = new AuthController();
+        OrderController orderController = new OrderController();
         Scanner scanner = new Scanner(System.in);
 
 

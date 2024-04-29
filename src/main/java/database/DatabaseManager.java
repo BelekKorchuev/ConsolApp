@@ -150,6 +150,8 @@ public class DatabaseManager {
             System.out.println(e.getMessage());        }
     }
 
+
+
     // метод для вывода данных id и username из таблицы users
     public static void displayUsers() {
         String sql = "SELECT id, username FROM users";
