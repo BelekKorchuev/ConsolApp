@@ -4,9 +4,15 @@ import database.DatabaseManager;
 
 public class OrderService {
 
+    // клиент метод что обрашается к методу для добавления заказа
+    public static boolean add_order_Client(String name, int name_id, String car_model, int wash_type_id, String created_at) {
+        DatabaseManager.addOrderClient(name, name_id, car_model, wash_type_id, created_at);
+        return true;
+    }
+
     // Админ метод что обрашяется к методу для добавдения заказа
     public static boolean add_order_Admin(String name, int name_id, String car_model, int wash_type_id, String status, String created_at) {
-        DatabaseManager.addOrder(name, name_id, car_model, wash_type_id, status, created_at);
+        DatabaseManager.addOrderAdmin(name, name_id, car_model, wash_type_id, status, created_at);
         return true;
     }
 
@@ -22,6 +28,8 @@ public class OrderService {
         return true;
     }
 
+
+
     // метод что обрашяется к методу вывода всех пользователей(для админа)
     public static void displayUsers() {
         DatabaseManager.displayUsers();
@@ -34,11 +42,15 @@ public class OrderService {
 
     // метод что обрашается к методу вывода списка заказов(для админа)
     public static void displayOrders() {
-        DatabaseManager.displayOrders();
+        DatabaseManager.displayOrders_Admin();
     }
 
     public static void displayOrderDetails() {
         DatabaseManager.displayOrdersDetails();
+    }
+
+     public static void clientOwnOrder(int customer_id) {
+        DatabaseManager.displayOrders_Client(customer_id);
     }
 }
 

@@ -21,6 +21,28 @@ public class DatabaseManager {
 //        }
 //    }
 
+    // клиент метод для создания заказа в базе
+    public static void addOrderClient(String name, int name_id, String car_model, int wash_type_id, String created_at) {
+        try {
+            resetAutoIncrement();
+        } catch (SQLException e) {
+            System.out.println("Ошибка при сбросе автоинкремента: " + e.getMessage());
+        }
+
+        String sql = "INSERT INTO orders (customer_name, customer_id, car_model, wash_type_id, created_at) VALUES (?, ?, ?, ?, ?)";
+        try (Connection conn = connect();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, name);
+            ps.setInt(2, name_id);
+            ps.setString(3, car_model);
+            ps.setInt(4, wash_type_id);
+            ps.setString(5, created_at);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
     // Метод для добавления нового пользователя в базу данных при регетстрации
     public static void addUser(String username, String password) {
         String sql = "INSERT INTO users(username, password) VALUES(?,?)";
@@ -32,6 +54,55 @@ public class DatabaseManager {
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
+    }
+
+    // метод для проверки нету ли уже таких паролей в базе
+    public static boolean isPasswordExists(String password) {
+        String sql = "SELECT COUNT(*) AS count FROM users WHERE password = ?";
+        try (Connection conn = connect();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, password);
+            ResultSet resultSet = ps.executeQuery();
+            if (resultSet.next()) {
+                int count = resultSet.getInt("count");
+                return count > 0; // Возвращает true, если пароль уже существует в базе данных
+            }
+        } catch (SQLException e) {
+            System.out.println("Ошибка при проверке существующего пароля: " + e.getMessage());
+        }
+        return false; // Возвращает false в случае ошибки или если пароль не найден
+    }
+
+    // метод для проверки нету ли уже таких имен в базе
+    public static boolean isUsernameExists(String username) {
+        String sql = "SELECT COUNT(*) AS count FROM users WHERE username = ?";
+        try (Connection conn = connect();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, username);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()){
+                int count = rs.getInt("count");
+                return count > 0; // Возвращает true, если пароль уже существует в базе данных
+            }
+        } catch (SQLException e) {
+            System.out.println("Ошибка при проверке существующего имени клиента: " + e.getMessage());
+        }
+        return false; // Возвращает false в случае ошибки или если пароль не найден
+    }
+
+    // получение id пользователя после входа
+    public static int getUserId(String username) {
+        String sql = "SELECT id FROM users WHERE username = ?";
+        try (Connection conn = connect();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, username);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getInt("id");
+            }
+        } catch (SQLException e) {
+            System.out.println("Ошибка при получении ID пользователя: " + e.getMessage());
+        } return -1;
     }
 
     // Метод для получения данных зашифрованного пароля пользователя из базы данных для входа
@@ -63,7 +134,7 @@ public class DatabaseManager {
     }
 
     // Админ метод для создания заказа в базе данных
-    public static void addOrder(String name, int name_id, String car_model, int wash_type_id, String status, String created_at) {
+    public static void addOrderAdmin(String name, int name_id, String car_model, int wash_type_id, String status, String created_at) {
         try {
             resetAutoIncrement();
         } catch (SQLException e) {
@@ -94,22 +165,6 @@ public class DatabaseManager {
         }
     }
 
-    // Метод для получения максимального ID заказа при добавдении заказа или удалении
-    public static int getMaxOrderId() {
-        String sql = "SELECT MAX(ID) AS max_id FROM orders";
-        try (Connection conn = connect();
-             Statement statement = conn.createStatement();
-             ResultSet resultSet = statement.executeQuery(sql)) {
-            if (resultSet.next()) {
-                return resultSet.getInt("max_id");
-            }
-        } catch (SQLException e) {
-            System.out.println("Ошибка при получении максимального ID: " + e.getMessage());
-        }
-        // Если таблица пуста или возникла ошибка, возвращаем 0
-        return 0;
-    }
-
     // Админ метод для удаления заказа из базы данных
     public static void deleteOrder(int orderId) {
         String sql = "DELETE FROM orders WHERE id = ?";
@@ -127,6 +182,22 @@ public class DatabaseManager {
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
+    }
+
+    // Метод для получения максимального ID заказа при добавдении заказа или удалении
+    public static int getMaxOrderId() {
+        String sql = "SELECT MAX(ID) AS max_id FROM orders";
+        try (Connection conn = connect();
+             Statement statement = conn.createStatement();
+             ResultSet resultSet = statement.executeQuery(sql)) {
+            if (resultSet.next()) {
+                return resultSet.getInt("max_id");
+            }
+        } catch (SQLException e) {
+            System.out.println("Ошибка при получении максимального ID: " + e.getMessage());
+        }
+        // Если таблица пуста или возникла ошибка, возвращаем 0
+        return 0;
     }
 
     // Метод для смещения списка после удаления заказа
@@ -187,8 +258,8 @@ public class DatabaseManager {
         }
     }
 
-    // метод для вывода списка заказов
-    public static void displayOrders() {
+    // метод для вывода списка заказов для удаления и изменения статуса
+    public static void displayOrders_Admin() {
         String sql = "SELECT id, customer_name, car_model, status, created_at FROM orders";
         try (Connection conn = connect();
             Statement statement = conn.createStatement();
@@ -228,5 +299,23 @@ public class DatabaseManager {
     }
 }
 
+    // метод для вывода списка собственных заказов клиента
+    public static void displayOrders_Client(int customer_id) {
+        String sql = "SELECT customer_name, car_model, status, created_at FROM orders WHERE customer_id = ?";
+        try (Connection conn = connect();
+            PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, customer_id);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                String customer_name = rs.getString("customer_name");
+                String car_model = rs.getString("car_model");
+                String status = rs.getString("status");
+                String created_at = rs.getString("created_at");
+                System.out.println("| Покупатель: " + customer_name + " || Модель машини: " + car_model + " || Статус выполнения: " + status + " || Создан в: " + created_at);
+            }
+        } catch (SQLException e) {
+            System.out.println("Ошибка при получении списка заказов");
+        }
+    }
 
 }

@@ -8,12 +8,18 @@ public class AuthService {
 
     // Метод для аутентификации пользователя
     public static boolean clientLogin(String username, String password) {
-
         String storedPassword = DatabaseManager.getUserPassword(username);
-        String encryptedPassword = encryptPassword(password);
         if (storedPassword != null) {
-            // Проверка правильности пароля
-            return storedPassword.equals(encryptedPassword);
+            String encryptedPassword = encryptPassword(password);
+            if (storedPassword.equals(encryptedPassword)) {
+                int userId = DatabaseManager.getUserId(username);
+                Session session = Session.getInstance();
+                session.setUserInfo(username, userId);
+                return true;
+            } else {
+                System.out.println("Неверный пароль.");
+                return false;
+            }
         } else {
             System.out.println("Пользователь с таким именем не существует.");
             return false;
@@ -42,10 +48,22 @@ public class AuthService {
 
     //Метод для регистрации нового пользователя
     public static boolean clientRegister(String username, String password) {
-        // Шифрование пароля
-        String encryptedPassword = encryptPassword(password);
-//         Сохранение пользователя в базе данных
-        DatabaseManager.addUser(username, encryptedPassword);
+        boolean isUsernameExists = DatabaseManager.isUsernameExists(username);
+        if (!isUsernameExists) {
+            String encryptedPassword = encryptPassword(password);
+            boolean isPasswordExists = DatabaseManager.isPasswordExists(encryptedPassword);
+            if (!isPasswordExists) {
+                String encryptedPassword2 = encryptPassword(password);
+                // Сохранение пользователя в базе данных
+                DatabaseManager.addUser(username, encryptedPassword2);
+            } else {
+                System.out.println("Такой пароль уже существует.");
+                return false;
+            }
+        } else {
+            System.out.println("Такое имя уже существует.");
+            return false;
+        }
         return true;
     }
 
@@ -71,7 +89,8 @@ public class AuthService {
         } catch (NoSuchAlgorithmException e) {
             System.out.println(e.getMessage());
         }
-            return null;
-        }
+        return null;
     }
+
+
 }

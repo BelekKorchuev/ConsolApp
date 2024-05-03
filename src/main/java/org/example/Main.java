@@ -1,11 +1,7 @@
 package org.example;
 
 import authentication.AuthController;
-import authentication.AuthService;
-import database.DatabaseManager;
 import ordermanagement.OrderController;
-import ordermanagement.OrderService;
-
 import java.util.Scanner;
 
 public class Main {
@@ -21,14 +17,16 @@ public class Main {
             System.out.println("2. Войти как клиент");
             System.out.println("3. Зарегистрироваться как клиент");
             System.out.println("0. Выход");
-            System.out.println("4. create order");
-            System.out.println("5. delete order");
-            System.out.println("6. update order status  ");
-//            System.out.println("7. register admin  ");
-            System.out.println("8. all orders  ");
+            System.out.println("4. create order as admin");
+            System.out.println("5. create order as client");
+            System.out.println("6. delete order");
+            System.out.println("7. update order status  ");
+//            System.out.println("8. register admin  ");
+            System.out.println("9. all order of clients");
+            System.out.println("10. my own orders");
 
             int choice = scanner.nextInt();
-            scanner.nextLine(); // Очистка буфера после ввода числа
+            scanner.nextLine();
 
             switch (choice) {
                 case 1:
@@ -48,16 +46,22 @@ public class Main {
                     orderController.addOrder_Admin();
                     break;
                 case 5:
-                    orderController.deleteOrder_Admin();
+                    orderController.addOrder_Client();
                     break;
                 case 6:
+                    orderController.deleteOrder_Admin();
+                    break;
+                case 7:
                     orderController.updateOrderStatus_Admin();
                     break;
-//                case 7:
+//                case 8:
 //                    authController.admin_Register();
 //                    break;
-                case 8:
+                case 9:
                     orderController.getAllOrders();
+                    break;
+                case 10:
+                    orderController.getAllClientOrders();
                     break;
                 default:
                     System.out.println("Некорректный выбор. Попробуйте снова.");

@@ -1,9 +1,12 @@
 package ordermanagement;
 
+import authentication.Session;
+
 import java.util.Scanner;
 
 public class OrderController {
     private final Scanner scanner;
+    Session session = Session.getInstance();
 
     public OrderController() {
         this.scanner = new Scanner(System.in);
@@ -59,6 +62,34 @@ public class OrderController {
         }
     }
 
+    // метод для создания заказа для клиента
+    public void addOrder_Client() {
+        System.out.println("Процесс создания заказа:");
+
+        String customer_name = session.getUsername();
+        int customer_id = session.getUserId();
+
+        System.out.print("Введите модель машины: ");
+        String car_model = scanner.nextLine();
+
+        System.out.println("Список услуг: ");
+        System.out.println("---------------------");
+        OrderService.displayServices();
+        System.out.print("Выберите ID услуги: ");
+        int wash_type_id = scanner.nextInt();
+        scanner.nextLine();
+
+        System.out.print("Введите дату: ");
+        String created_at = scanner.nextLine();
+
+        boolean added = OrderService.add_order_Client(customer_name, customer_id, car_model, wash_type_id, created_at);
+        if (added) {
+            System.out.println("Заказ успешно добавлен!");
+        } else {
+            System.out.println("Ошибка. Повторите еще раз.");
+        }
+    }
+
     // метод для удаления заказа для админа
     public void deleteOrder_Admin() {
         System.out.println("Процесс удаления заказа: ");
@@ -94,6 +125,17 @@ public class OrderController {
         } else {
             System.out.println("Ошибка. Повторите еще раз.");
         }
+    }
+
+    // Методы для вывода собственных заказов клиента
+    public void getAllClientOrders() {
+        int customer_id = session.getUserId();
+        System.out.println("---------------------");
+        System.out.println(" Все ваши заказы: ");
+        System.out.println("---------------------");
+        OrderService.clientOwnOrder(customer_id);
+        System.out.println("---------------------");
+
     }
 }
 
