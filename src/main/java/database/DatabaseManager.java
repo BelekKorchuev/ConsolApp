@@ -463,12 +463,12 @@ public class DatabaseManager {
 
 
     // Метод для добавления нового вида мойки
-    public static void addWashType(String washType, double price, String description) {
-        String sql = "INSERT INTO services (type_name, price, description) VALUES (?, ?, ?)";
+    public static void addWashType(String washType, int price, String description) {
+        String sql = "INSERT INTO services (name, price, discrip) VALUES (?, ?, ?)";
         try (Connection conn = DriverManager.getConnection(DATABASE_URL);
              PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, washType);
-            ps.setDouble(2, price);
+            ps.setInt(2, price);
             ps.setString(3, description);
             ps.executeUpdate();
             System.out.println("Новый вид мойки успешно добавлен в базу данных.");
@@ -478,12 +478,12 @@ public class DatabaseManager {
     }
 
     // Метод для изменения существующего вида мойки
-    public static void updateWashType(int washTypeId, String newWashType, double newPrice, String newDescription) {
-        String sql = "UPDATE services SET type_name = ?, price = ?, description = ? WHERE id = ?";
+    public static void updateWashType(int washTypeId, String newWashType, int newPrice, String newDescription) {
+        String sql = "UPDATE services SET name = ?, price = ?, discrip = ?  WHERE id = ?";
         try (Connection conn = DriverManager.getConnection(DATABASE_URL);
              PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, newWashType);
-            ps.setDouble(2, newPrice);
+            ps.setInt(2, newPrice);
             ps.setString(3, newDescription);
             ps.setInt(4, washTypeId);
             int rowsAffected = ps.executeUpdate();
