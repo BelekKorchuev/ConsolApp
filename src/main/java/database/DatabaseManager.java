@@ -216,9 +216,15 @@ public class DatabaseManager {
              PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, newStatus);
             ps.setInt(2, orderId);
-            ps.executeUpdate();
+            int rowsAffected = ps.executeUpdate();
+            if (rowsAffected > 0) {
+                System.out.println("Статус заказа успешно изменен.");
+            } else {
+                System.out.println("Заказ с указанным ID не найден.");
+            }
         } catch (SQLException e) {
-            System.out.println(e.getMessage());        }
+            System.out.println("Ошибка при изменении статуса заказа: " + e.getMessage());
+        }
     }
 
 
@@ -315,6 +321,129 @@ public class DatabaseManager {
             }
         } catch (SQLException e) {
             System.out.println("Ошибка при получении списка заказов");
+        }
+    }
+
+
+
+    // метод для удаления клиента по id
+    public static void deleteUserById(int userId) {
+        String sql = "DELETE FROM users WHERE id = ?";
+        try (Connection conn = connect();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, userId);
+            int rowsAffected = ps.executeUpdate();
+            if (rowsAffected > 0) {
+                System.out.println("Пользователь с ID " + userId + " успешно удален.");
+            } else {
+                System.out.println("Пользователь с ID " + userId + " не найден.");
+            }
+        } catch (SQLException e) {
+            System.out.println("Ошибка при удалении пользователя: " + e.getMessage());
+        }
+    }
+
+    // метод для вывода списка клиентов
+    public static void UserList() {
+        Connection conn = null;
+        Statement statement = null;
+        ResultSet resultSet = null;
+
+        try {
+            conn = connect();
+            statement = conn.createStatement();
+            resultSet = statement.executeQuery("SELECT id, username FROM users");
+
+            while (resultSet.next()) {
+                int userId = resultSet.getInt("id");
+                String username = resultSet.getString("username");
+                System.out.println("ID: " + userId + ", Имя пользователя: " + username);
+            }
+        } catch (SQLException e) {
+            System.out.println("Ошибка при получении списка пользователей: " + e.getMessage());
+        } finally {
+            try {
+                if (resultSet != null) {
+                    resultSet.close();
+                }
+                if (statement != null) {
+                    statement.close();
+                }
+                if (conn != null) {
+                    conn.close();
+                }
+            } catch (SQLException e) {
+                System.out.println("Ошибка при закрытии ресурсов: " + e.getMessage());
+            }
+        }
+    }
+
+    // Метод для добавления нового вида мойки
+    public static void addWashType(String washType, int price, String description) {
+        String sql = "INSERT INTO services (name, price, discrip) VALUES (?, ?, ?)";
+        try (Connection conn =connect();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, washType);
+            ps.setInt(2, price);
+            ps.setString(3, description);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println("Ошибка при добавлении вида мойки: " + e.getMessage());
+        }
+    }
+
+    // Метод для изменения существующего вида мойки
+    public static void updateWashType(int washTypeId, String newWashType, int newPrice, String newDescription) {
+        String sql = "UPDATE services SET name = ?, price = ?, discrip = ?  WHERE id = ?";
+        try (Connection conn = connect();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, newWashType);
+            ps.setInt(2, newPrice);
+            ps.setString(3, newDescription);
+            ps.setInt(4, washTypeId);
+            int rowsAffected = ps.executeUpdate();
+            if (rowsAffected > 0) {
+                System.out.println("Вид мойки успешно изменен.");
+            } else {
+                System.out.println("Вид мойки с указанным ID не найден.");
+            }
+        } catch (SQLException e) {
+            System.out.println("Ошибка при изменении вида мойки: " + e.getMessage());
+        }
+    }
+
+    // метод для удаления вида мойки
+    public static void deleteWashType(int washTypeId) {
+        String sql = "DELETE FROM services WHERE id = ?";
+        try (Connection conn = connect();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, washTypeId);
+            int rowsAffected = ps.executeUpdate();
+            if (rowsAffected > 0) {
+                System.out.println("Вид мойки с ID " + washTypeId + " успешно удален.");
+            } else {
+                System.out.println("Вид мойки с ID " + washTypeId + " не найден.");
+            }
+        } catch (SQLException e) {
+            System.out.println("Ошибка при удалении вида мойки: " + e.getMessage());
+        }
+    }
+
+    // метод для вывода данных о сущ. услуг из таблицы services для клиента
+    public static void displayWashType() {
+        String sql = "SELECT name, discrip, price FROM services";
+        try (Connection conn = connect();
+             Statement statement = conn.createStatement();
+             ResultSet resultSet = statement.executeQuery(sql)) {
+            while (resultSet.next()) {
+                String name = resultSet.getString("name");
+                String description = resultSet.getString("discrip");
+                double price = resultSet.getDouble("price");
+                System.out.println("| Название: " + name + ", || Цена:" + price+ " сом | \n| Описание: " + description + "| ");
+                System.out.println("------------------------------------------------------");
+            }
+        } catch (SQLException e) {
+            System.out.println("Ошибка при получении списка услуг: " + e.getMessage());
         }
     }
 

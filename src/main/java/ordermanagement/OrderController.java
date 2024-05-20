@@ -120,7 +120,6 @@ public class OrderController {
 
         boolean updated = OrderService.update_orderStatus_Admin(orderId, newStatus);
         if (updated) {
-            System.out.println("Статус заказа успешно изменен!");
             System.out.println("---------------------------");
         } else {
             System.out.println("Ошибка. Повторите еще раз.");
