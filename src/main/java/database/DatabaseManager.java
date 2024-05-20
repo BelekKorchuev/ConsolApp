@@ -391,40 +391,6 @@ public class DatabaseManager {
     }
 
 
-
-    // Метод для добавления нового пользователя в базу данных
-    public static void addUsers(String username, String password) {
-        // Шифрование пароля с использованием SHA-256
-        String hashedPassword = hashPasswords(password);
-
-        String sql = "INSERT INTO users(username, password) VALUES(?,?)";
-        try (Connection conn = DriverManager.getConnection(DATABASE_URL);
-             PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setString(1, username);
-            ps.setString(2, hashedPassword);
-            ps.executeUpdate();
-        } catch (SQLException e) {
-            System.out.println("Ошибка при добавлении пользователя: " + e.getMessage());
-        }
-    }
-
-    // Метод для шифрования пароля с использованием алгоритма SHA-256
-    private static String hashPasswords(String password) {
-        try {
-            MessageDigest md = MessageDigest.getInstance("SHA-256");
-            byte[] hashBytes = md.digest(password.getBytes());
-            StringBuilder sb = new StringBuilder();
-            for (byte b : hashBytes) {
-                sb.append(String.format("%02x", b));
-            }
-            return sb.toString();
-        } catch (NoSuchAlgorithmException e) {
-            System.out.println("Ошибка при хешировании пароля: " + e.getMessage());
-            return null;
-        }
-    }
-
-
     public static void printUserList() {
         Connection conn = null;
         Statement statement = null;
@@ -497,17 +463,6 @@ public class DatabaseManager {
         }
     }
 
-    public static void deleteWashTypeById(Scanner scanner) {
-        // Вывод списка видов моек с их ID перед удалением
-        printWashTypesWithIds();
-
-        System.out.print("Введите ID вида мойки для удаления: ");
-        int washTypeId = scanner.nextInt();
-        scanner.nextLine(); // Очистка буфера после считывания числа
-
-        // Удаление вида мойки по его ID
-        deleteWashTypeById(washTypeId);
-    }
 
     public static void printWashTypesWithIds() {
         Connection conn = null;
