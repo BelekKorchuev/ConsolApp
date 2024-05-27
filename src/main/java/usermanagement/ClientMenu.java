@@ -14,12 +14,12 @@ public class ClientMenu {
 
         while (true) {
             // Отображение меню администратора
-            System.out.println("Меню пользователя:");
-            System.out.println("1. Просмотреть каталога услуг");
-            System.out.println("2. Создать заказ");
-            System.out.println("3. Просмотреть все свои заказы");
-            System.out.println("4. Выход");
-            System.out.print("Выберите действие: ");
+            System.out.println("Client menu:");
+            System.out.println("1. View service catalog");
+            System.out.println("2. Create order");
+            System.out.println("3. View all your orders");
+            System.out.println("4. Exit");
+            System.out.print(">> ");
 
             int choice = scanner.nextInt();
             scanner.nextLine(); // Очистка буфера после считывания числа
@@ -36,10 +36,10 @@ public class ClientMenu {
                     orderController.getAllClientOrders();
                     break;
                 case 4:
-                    System.out.println("Выход из меню пользователя.");
+                    System.out.println("Exiting the client menu.");
                     return;
                 default:
-                    System.out.println("Неверный выбор. Попробуйте еще раз.");
+                    System.out.println("Incorrect choice. Please try again.");
             }
         }
     }

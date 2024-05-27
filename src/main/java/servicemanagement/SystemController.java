@@ -13,34 +13,34 @@ public class SystemController {
     }
 
     public void addWashType() {
-        System.out.print("Введите название мойки:");
+        System.out.print("Enter car wash name: ");
         String name = scanner.nextLine();
 
-        System.out.println("Введите описание мойки:");
+        System.out.println("Enter car wash description:");
         String description = scanner.nextLine();
 
-        System.out.print("Введите цену мойки:");
+        System.out.print("Enter car wash price: ");
         int price = scanner.nextInt();
         scanner.nextLine();
 
         // Вызов метода для добавления нового вида мойки
         SystemService.addWashType(name, price, description);
-        System.out.println("Новый вид мойки успешно добавлен.");
+        System.out.println("Car wash type was successfully added.");
     }
 
     public void updateWashType() {
         DatabaseManager.displayServices();
-        System.out.print("Введите ID мойки, которую нужно изменить:");
+        System.out.print("Enter the ID of the car wash to be modified: ");
         int washTypeId = scanner.nextInt();
         scanner.nextLine();
 
-        System.out.print("Введите новое название мойки:");
+        System.out.print("Enter the new car wash name: ");
         String name = scanner.nextLine();
 
-        System.out.println("Введите новое описание мойки:");
+        System.out.println("Enter the new car wash description:");
         String description = scanner.nextLine();
 
-        System.out.print("Введите новую цену мойки:");
+        System.out.print("Enter the new car wash price: ");
         int price = scanner.nextInt();
 
         // Вызов метода для изменения вида мойки
@@ -51,7 +51,7 @@ public class SystemController {
         // Вывод списка моек с их ID перед удалением
         DatabaseManager.displayServices();
 
-        System.out.print("Введите ID мойки для удаления: ");
+        System.out.print("Enter the ID of the car wash to delete: ");
         int washTypeId = scanner.nextInt();
         scanner.nextLine(); // Очистка буфера после считывания числа
 
@@ -61,7 +61,7 @@ public class SystemController {
 
     public void allWashType() {
         System.out.println("---------------------");
-        System.out.println(" Все пользователи: ");
+        System.out.println("All services: ");
         System.out.println("---------------------");
         SystemService.displayAllWashType();
         System.out.println("---------------------");

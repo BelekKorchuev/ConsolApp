@@ -3,7 +3,7 @@ package database;
 import java.sql.*;
 
 public class DatabaseManager {
-    private static final String DATABASE_URL = "jdbc:sqlite:src/main/resources/mydatabase.db";
+    private static final String DATABASE_URL = "jdbc:sqlite:src/main/resources/database.db";
 
     // Метод для подключения к базе данных
     public static Connection connect() throws SQLException {
@@ -26,7 +26,7 @@ public class DatabaseManager {
         try {
             resetAutoIncrement();
         } catch (SQLException e) {
-            System.out.println("Ошибка при сбросе автоинкремента: " + e.getMessage());
+            System.out.println("Error while resetting auto-increment: " + e.getMessage());
         }
 
         String sql = "INSERT INTO orders (customer_name, customer_id, car_model, wash_type_id, created_at) VALUES (?, ?, ?, ?, ?)";
@@ -68,7 +68,7 @@ public class DatabaseManager {
                 return count > 0; // Возвращает true, если пароль уже существует в базе данных
             }
         } catch (SQLException e) {
-            System.out.println("Ошибка при проверке существующего пароля: " + e.getMessage());
+            System.out.println("Error when checking the existing password: " + e.getMessage());
         }
         return false; // Возвращает false в случае ошибки или если пароль не найден
     }
@@ -85,7 +85,7 @@ public class DatabaseManager {
                 return count > 0; // Возвращает true, если пароль уже существует в базе данных
             }
         } catch (SQLException e) {
-            System.out.println("Ошибка при проверке существующего имени клиента: " + e.getMessage());
+            System.out.println("Error when checking the existing client name: " + e.getMessage());
         }
         return false; // Возвращает false в случае ошибки или если пароль не найден
     }
@@ -101,7 +101,7 @@ public class DatabaseManager {
                 return rs.getInt("id");
             }
         } catch (SQLException e) {
-            System.out.println("Ошибка при получении ID пользователя: " + e.getMessage());
+            System.out.println("Error while getting user ID: " + e.getMessage());
         } return -1;
     }
 
@@ -138,7 +138,7 @@ public class DatabaseManager {
         try {
             resetAutoIncrement();
         } catch (SQLException e) {
-            System.out.println("Ошибка при сбросе автоинкремента: " + e.getMessage());
+            System.out.println("Error while resetting auto-increment: " + e.getMessage());
         }
 
         String sql = "INSERT INTO orders (customer_name, customer_id, car_model, wash_type_id, status, created_at) VALUES (?, ?, ?, ?, ?, ?)";
@@ -194,7 +194,7 @@ public class DatabaseManager {
                 return resultSet.getInt("max_id");
             }
         } catch (SQLException e) {
-            System.out.println("Ошибка при получении максимального ID: " + e.getMessage());
+            System.out.println("Error while getting maximum ID: " + e.getMessage());
         }
         // Если таблица пуста или возникла ошибка, возвращаем 0
         return 0;
@@ -218,12 +218,12 @@ public class DatabaseManager {
             ps.setInt(2, orderId);
             int rowsAffected = ps.executeUpdate();
             if (rowsAffected > 0) {
-                System.out.println("Статус заказа успешно изменен.");
+                System.out.println("Order status successfully changed.");
             } else {
-                System.out.println("Заказ с указанным ID не найден.");
+                System.out.println("Order with the specified ID not found.");
             }
         } catch (SQLException e) {
-            System.out.println("Ошибка при изменении статуса заказа: " + e.getMessage());
+            System.out.println("Error while changing order status: " + e.getMessage());
         }
     }
 
@@ -238,10 +238,10 @@ public class DatabaseManager {
             while (resultSet.next()) {
                 int id = resultSet.getInt("id");
                 String username = resultSet.getString("username");
-                System.out.println("| ID:" + id + ", имя: " + username + "|");
+                System.out.println("| ID:" + id + ", Name: " + username + "|");
             }
         } catch (SQLException e) {
-            System.out.println("Ошибка при получении списка пользователей: " + e.getMessage());
+            System.out.println("Error fetching user list: " + e.getMessage());
         }
     }
 
@@ -256,11 +256,11 @@ public class DatabaseManager {
                 String name = resultSet.getString("name");
                 String description = resultSet.getString("discrip");
                 double price = resultSet.getDouble("price");
-                System.out.println("| ID:" + id + " || Название: " + name + ", || Цена:" + price+ " сом | \n| Описание: " + description + "| ");
+                System.out.println("| ID:" + id + " || Label: " + name + ", || Price:" + price+ " som | \n| Description: " + description + "| ");
                 System.out.println("------------------------------------------------------");
             }
         } catch (SQLException e) {
-            System.out.println("Ошибка при получении списка услуг: " + e.getMessage());
+            System.out.println("Error fetching service list: " + e.getMessage());
         }
     }
 
@@ -276,10 +276,10 @@ public class DatabaseManager {
                 String car_model = resultSet.getString("car_model");
                 String status = resultSet.getString("status");
                 String created_at = resultSet.getString("created_at");
-                System.out.println("| ID:" + id + " || Покупатель: " + customer_name + " || Модель машини: " + car_model + " || Статус выполнения: " + status + " || Создан в: " + created_at);
+                System.out.println("| ID:" + id + " || Name: " + customer_name + " || Car model: " + car_model + " || Status: " + status + " || Created at: " + created_at);
             }
         } catch (SQLException e) {
-            System.out.println("Ошибка при получении списка заказов");
+            System.out.println("Error fetching order list");
         }
     }
 
@@ -298,10 +298,10 @@ public class DatabaseManager {
             String serviceName = resultSet.getString("name");
             String status = resultSet.getString("status");
             String createdAt = resultSet.getString("created_at");
-            System.out.println("| Клиент:" + username + " || Модель машины: " + carModel + " || Сервис: " + serviceName + " || Статус: " + status + " || Создано: " + createdAt + "|");
+            System.out.println("| Client:" + username + " || Car model: " + carModel + " || Service: " + serviceName + " || Status: " + status + " || Created at: " + createdAt + "|");
         }
     } catch (SQLException e) {
-        System.out.println("Ошибка при получении деталей заказов: " + e.getMessage());
+        System.out.println("Error fetching order details: " + e.getMessage());
     }
 }
 
@@ -317,10 +317,10 @@ public class DatabaseManager {
                 String car_model = rs.getString("car_model");
                 String status = rs.getString("status");
                 String created_at = rs.getString("created_at");
-                System.out.println("| Покупатель: " + customer_name + " || Модель машини: " + car_model + " || Статус выполнения: " + status + " || Создан в: " + created_at);
+                System.out.println("| Client: " + customer_name + " || Car model: " + car_model + " || Status: " + status + " || Created at: " + created_at);
             }
         } catch (SQLException e) {
-            System.out.println("Ошибка при получении списка заказов");
+            System.out.println("Error fetching order list");
         }
     }
 
@@ -334,12 +334,12 @@ public class DatabaseManager {
             ps.setInt(1, userId);
             int rowsAffected = ps.executeUpdate();
             if (rowsAffected > 0) {
-                System.out.println("Пользователь с ID " + userId + " успешно удален.");
+                System.out.println("User with ID " + userId + " successfully deleted.");
             } else {
-                System.out.println("Пользователь с ID " + userId + " не найден.");
+                System.out.println("User with ID " + userId + " not found.");
             }
         } catch (SQLException e) {
-            System.out.println("Ошибка при удалении пользователя: " + e.getMessage());
+            System.out.println("Error deleting client: " + e.getMessage());
         }
     }
 
@@ -357,10 +357,10 @@ public class DatabaseManager {
             while (resultSet.next()) {
                 int userId = resultSet.getInt("id");
                 String username = resultSet.getString("username");
-                System.out.println("ID: " + userId + ", Имя пользователя: " + username);
+                System.out.println("ID: " + userId + ", Client: " + username);
             }
         } catch (SQLException e) {
-            System.out.println("Ошибка при получении списка пользователей: " + e.getMessage());
+            System.out.println("Error fetching user list: " + e.getMessage());
         } finally {
             try {
                 if (resultSet != null) {
@@ -373,7 +373,7 @@ public class DatabaseManager {
                     conn.close();
                 }
             } catch (SQLException e) {
-                System.out.println("Ошибка при закрытии ресурсов: " + e.getMessage());
+                System.out.println("Error closing resources: " + e.getMessage());
             }
         }
     }
@@ -388,7 +388,7 @@ public class DatabaseManager {
             ps.setString(3, description);
             ps.executeUpdate();
         } catch (SQLException e) {
-            System.out.println("Ошибка при добавлении вида мойки: " + e.getMessage());
+                System.out.println("Error adding car wash type: " + e.getMessage());
         }
     }
 
@@ -403,12 +403,12 @@ public class DatabaseManager {
             ps.setInt(4, washTypeId);
             int rowsAffected = ps.executeUpdate();
             if (rowsAffected > 0) {
-                System.out.println("Вид мойки успешно изменен.");
+                System.out.println("Car wash type successfully modified.");
             } else {
-                System.out.println("Вид мойки с указанным ID не найден.");
+                System.out.println("Car wash type with specified ID not found.");
             }
         } catch (SQLException e) {
-            System.out.println("Ошибка при изменении вида мойки: " + e.getMessage());
+            System.out.println("Error modifying car wash type: " + e.getMessage());
         }
     }
 
@@ -420,12 +420,12 @@ public class DatabaseManager {
             ps.setInt(1, washTypeId);
             int rowsAffected = ps.executeUpdate();
             if (rowsAffected > 0) {
-                System.out.println("Вид мойки с ID " + washTypeId + " успешно удален.");
+                System.out.println("Car wash type with ID " + washTypeId + " successfully deleted.");
             } else {
-                System.out.println("Вид мойки с ID " + washTypeId + " не найден.");
+                System.out.println("Car wash type with ID " + washTypeId + " not found.");
             }
         } catch (SQLException e) {
-            System.out.println("Ошибка при удалении вида мойки: " + e.getMessage());
+            System.out.println("Error deleting car wash type: " + e.getMessage());
         }
     }
 
@@ -439,11 +439,11 @@ public class DatabaseManager {
                 String name = resultSet.getString("name");
                 String description = resultSet.getString("discrip");
                 double price = resultSet.getDouble("price");
-                System.out.println("| Название: " + name + ", || Цена:" + price+ " сом | \n| Описание: " + description + "| ");
+                System.out.println("| Label: " + name + ", || Price:" + price+ " som | \n| Description: " + description + "| ");
                 System.out.println("------------------------------------------------------");
             }
         } catch (SQLException e) {
-            System.out.println("Ошибка при получении списка услуг: " + e.getMessage());
+            System.out.println("Error fetching service list: " + e.getMessage());
         }
     }
 

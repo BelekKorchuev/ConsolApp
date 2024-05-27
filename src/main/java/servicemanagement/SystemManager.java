@@ -8,13 +8,13 @@ public class SystemManager {
         Scanner scanner = new Scanner(System.in);
 
         while (true) {
-            System.out.println("Меню настройки системы:");
-            System.out.println("1. Просмотреть все виды услуг");
-            System.out.println("2. Добавить вид новой мойки");
-            System.out.println("3. Изменить вид мойки");
-            System.out.println("4. Удалить вид мойки по ID");
-            System.out.println("5. Назад");
-            System.out.print("Выберите действие: ");
+            System.out.println("System settings menu:");
+            System.out.println("1. View all types of services");
+            System.out.println("2. Add a new car wash type");
+            System.out.println("3. Modify a car wash type");
+            System.out.println("4. Delete a car wash type by ID");
+            System.out.println("5. Back");
+            System.out.print(">>> ");
 
             int choice = scanner.nextInt();
             scanner.nextLine(); // Очистка буфера после считывания числа
@@ -33,10 +33,10 @@ public class SystemManager {
                     systemController.deleteWashType();
                     break;
                 case 5:
-                    System.out.println("Возврат в меню администратора.");
+                    System.out.println("Return to administrator menu.");
                     return;
                 default:
-                    System.out.println("Неверный выбор. Попробуйте еще раз.");
+                    System.out.println("Incorrect choice. Please try again.");
             }
         }
     }

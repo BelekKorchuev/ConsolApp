@@ -13,11 +13,12 @@ public class Main {
 
 
         while (true) {
-            System.out.println("Меню:");
-            System.out.println("1. Войти как администратор");
-            System.out.println("2. Войти как клиент");
-            System.out.println("3. Зарегистрироваться как клиент");
-            System.out.println("0. Выход");
+            System.out.println("Menu:");
+            System.out.println("1. Log in as Administrator");
+            System.out.println("2. Log in as Client");
+            System.out.println("3. Register as Client");
+            System.out.println("0. Exit");
+            System.out.print(">> ");
 
             int choice = scanner.nextInt();
             scanner.nextLine();
@@ -35,11 +36,11 @@ public class Main {
                     authController.client_Register();
                     break;
                 case 0:
-                    System.out.println("До свидания!");
+                    System.out.println("Goodbye!");
                     System.exit(0);
                     break;
                 default:
-                    System.out.println("Некорректный выбор. Попробуйте снова.");
+                    System.out.println("Incorrect choice. Please try again.");
             }
         }
     }

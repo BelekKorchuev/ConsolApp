@@ -11,13 +11,13 @@ public class AdminMenu {
         Scanner scanner = new Scanner(System.in);
         while (true) {
             // Отображение меню администратора
-            System.out.println("Меню администратора:");
-            System.out.println("1. Управление пользователями");
-            System.out.println("2. Управление заказами");
-            System.out.println("3. Настройки системы");
-            System.out.println("4. Генерация отчетов");
-            System.out.println("5. Выход");
-            System.out.print("Выберите действие: ");
+            System.out.println("Administrator menu:");
+            System.out.println("1. User management");
+            System.out.println("2. Order management");
+            System.out.println("3. System settings");
+            System.out.println("4. Report generation");
+            System.out.println("5. Exit");
+            System.out.print(">> ");
 
             int choice = scanner.nextInt();
             scanner.nextLine(); // Очистка буфера после считывания числа
@@ -36,10 +36,10 @@ public class AdminMenu {
                     // отчет;
                     break;
                 case 5:
-                    System.out.println("Выход из меню администратора.");
+                    System.out.println("Exiting the administrator menu.");
                     return;
                 default:
-                    System.out.println("Неверный выбор. Попробуйте еще раз.");
+                    System.out.println("Incorrect choice. Please try again");
             }
         }
     }

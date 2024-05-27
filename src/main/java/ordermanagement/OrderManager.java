@@ -10,13 +10,13 @@ public class OrderManager {
             OrderController orderController = new OrderController();
             Scanner scanner = new Scanner(System.in);
 
-            System.out.println("Меню управления заказами:");
-            System.out.println("1. Просмотр всех заказов");
-            System.out.println("2. Добавдение заказа");
-            System.out.println("3. Удаление заказа");
-            System.out.println("4. Изменение статуса заказа");
-            System.out.println("5. Назад");
-            System.out.print("Выберите действие: ");
+            System.out.println("Orders management menu:");
+            System.out.println("1. View all orders");
+            System.out.println("2. Add order");
+            System.out.println("3. Delete order");
+            System.out.println("4. Change order status");
+            System.out.println("5. Back");
+            System.out.print(">>> ");
 
             int choice = scanner.nextInt();
             scanner.nextLine(); // Очистка буфера после считывания числа
@@ -35,10 +35,10 @@ public class OrderManager {
                     orderController.updateOrderStatus_Admin();
                     break;
                 case 5:
-                    System.out.println("Возврат в меню администратора.");
+                    System.out.println("Return to administrator menu.");
                     return;
                 default:
-                    System.out.println("Неверный выбор. Попробуйте еще раз.");
+                    System.out.println("Incorrect choice. Please try again.");
             }
         }
     }

@@ -17,11 +17,11 @@ public class AuthService {
                 session.setUserInfo(username, userId);
                 return true;
             } else {
-                System.out.println("Неверный пароль.");
+                System.out.println("Incorrect password.");
                 return false;
             }
         } else {
-            System.out.println("Пользователь с таким именем не существует.");
+            System.out.println("User with this name does not exist.");
             return false;
         }
     }
@@ -36,12 +36,12 @@ public class AuthService {
             if (storedPassword.equals(encryptedPassword)){
                 return true;
             } else {
-            System.out.println("Неверный пароль.");
+            System.out.println("Incorrect password.");
             return false;
             }
 
         } else {
-            System.out.println("Пользователь с таким именем не существует.");
+            System.out.println("User with this name does not exist.");
             return false;
         }
     }
@@ -57,11 +57,11 @@ public class AuthService {
                 // Сохранение пользователя в базе данных
                 DatabaseManager.addUser(username, encryptedPassword2);
             } else {
-                System.out.println("Такой пароль уже существует.");
+                System.out.println("This password already exists.");
                 return false;
             }
         } else {
-            System.out.println("Такое имя уже существует.");
+            System.out.println("This username already exists.");
             return false;
         }
         return true;
@@ -91,6 +91,5 @@ public class AuthService {
         }
         return null;
     }
-
 
 }

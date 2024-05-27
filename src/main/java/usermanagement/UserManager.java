@@ -9,13 +9,12 @@ public class UserManager {
             UserController userController = new UserController();
             Scanner scanner = new Scanner(System.in);
 
-            System.out.println("Меню управления пользователями:");
-            System.out.println("1. Показать список пользователей");
-            System.out.println("2. Добавить пользователя");
-            System.out.println("3. Удалить пользователя по ID");
-            System.out.println("4. Назад");
-            System.out.print("Выберите действие: ");
-
+           System.out.println("User management menu:");
+            System.out.println("1. Show clients list");
+            System.out.println("2. Add client");
+            System.out.println("3. Delete client by ID");
+            System.out.println("4. Back");
+            System.out.print(">> ");
             int choice = scanner.nextInt();
             scanner.nextLine(); // Очистка буфера после считывания числа
 
@@ -31,10 +30,10 @@ public class UserManager {
                     userController.deleteClient();
                     break;
                 case 4:
-                    System.out.println("Возврат в меню администратора.");
+                    System.out.println("Return to administrator menu.");
                     return;
                 default:
-                    System.out.println("Неверный выбор. Попробуйте еще раз.");
+                    System.out.println("Incorrect choice. Please try again.");
             }
         }
     }

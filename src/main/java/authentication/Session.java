@@ -6,7 +6,6 @@ public class Session {
     private int userId;
 
     private Session() {
-        // Приватный конструктор, чтобы предотвратить создание объекта сессии извне
     }
 
     public static Session getInstance() {
